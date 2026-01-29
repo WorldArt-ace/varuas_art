@@ -3,310 +3,441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Cart | Luxe Decor</title>
+    <title>Luxe Decor | Shopping Cart</title>
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* --- 1. CSS STYLES --- */
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #d4af37;
-            --bg-color: #f8f9fa;
+            --primary: #2c3e50;      /* Dark Blue-Grey */
+            --gold: #d4af37;         /* Luxury Gold */
+            --bg: #fdfdfd;           /* Off-white background */
             --white: #ffffff;
-            --text-dark: #333333;
-            --text-light: #777777;
+            --text-main: #333;
+            --text-light: #777;
             --danger: #e74c3c;
             --success: #27ae60;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --radius: 8px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-dark); }
-
-        /* --- LAYOUT --- */
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        h1 { margin-bottom: 30px; color: var(--primary-color); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
-        .cart-wrapper {
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
+        .logo span { color: var(--gold); }
+
+        /* CONTAINER */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        
+        .page-title { margin-bottom: 25px; font-weight: 300; font-size: 2rem; color: var(--primary); }
+
+        .cart-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 40px;
+            gap: 30px;
             align-items: start;
         }
 
-        /* --- LEFT COLUMN: ITEMS --- */
-        .cart-items {
+        /* LEFT SIDE: CART ITEMS */
+        .cart-box {
             background: var(--white);
-            border-radius: var(--border-radius);
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 30px;
-            min-height: 200px;
+            padding: 25px;
         }
 
-        .product-card {
-            display: flex;
-            align-items: center;
-            padding-bottom: 25px;
-            margin-bottom: 25px;
+        .cart-header-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 0.5fr;
+            padding-bottom: 15px;
             border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .product-card.fade-out {
-            opacity: 0;
-            transform: translateX(-20px);
+        .cart-item {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 0.5fr;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            transition: opacity 0.3s;
         }
-
-        .product-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-right: 20px;
-            background-color: #eee;
+        
+        .item-info { display: flex; align-items: center; gap: 15px; }
+        .item-img {
+            width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #eee;
         }
+        .item-text h4 { font-size: 1rem; color: var(--primary); margin-bottom: 4px; }
+        .item-text p { font-size: 0.85rem; color: var(--text-light); }
 
-        .product-details { flex-grow: 1; }
-        .product-name { font-weight: 600; color: var(--primary-color); margin-bottom: 5px; }
-        .product-meta { font-size: 0.9rem; color: var(--text-light); }
-
-        .quantity-control {
+        .qty-selector {
             display: flex;
             align-items: center;
             border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-right: 30px;
+            width: fit-content;
+            border-radius: 4px;
         }
-
         .qty-btn {
-            background: #f1f1f1;
-            border: none;
-            padding: 5px 12px;
-            cursor: pointer;
-            font-weight: bold;
+            background: #f9f9f9; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold;
         }
-        .qty-btn:hover { background: #ddd; }
-        .qty-input {
-            width: 40px;
-            text-align: center;
-            border: none;
-            font-weight: 600;
-        }
+        .qty-btn:hover { background: #eee; }
+        .qty-val { width: 35px; text-align: center; border: none; font-size: 0.9rem; }
 
-        .price-tag {
-            font-size: 1.1rem;
-            font-weight: 700;
-            min-width: 80px;
-            text-align: right;
+        .item-price { font-weight: 600; color: var(--text-main); }
+        
+        .delete-btn {
+            color: var(--text-light); background: none; border: none; cursor: pointer; font-size: 1.2rem; transition: 0.2s;
         }
+        .delete-btn:hover { color: var(--danger); }
 
-        .remove-btn {
-            color: var(--danger);
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-top: 5px;
-            background: none;
-            border: none;
-            text-decoration: underline;
-        }
-
-        /* --- RIGHT COLUMN: SUMMARY --- */
-        .order-summary {
+        /* RIGHT SIDE: SUMMARY */
+        .summary-box {
             background: var(--white);
-            border-radius: var(--border-radius);
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 30px;
+            padding: 25px;
             position: sticky;
             top: 20px;
         }
 
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid #eee;
-            padding-top: 20px;
-            margin-top: 20px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .promo-section { margin: 25px 0; }
-        .promo-input-group { display: flex; gap: 10px; }
+        .summary-title { font-size: 1.2rem; margin-bottom: 20px; color: var(--primary); }
         
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
+        .total-row { border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+
+        /* PROMO CODE */
+        .promo-area { margin: 20px 0; }
+        .promo-flex { display: flex; gap: 8px; }
         .promo-input {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none;
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none;
         }
-        
         .apply-btn {
-            background: transparent; border: 1px solid var(--primary-color);
-            color: var(--primary-color); padding: 0 15px; border-radius: 6px;
-            cursor: pointer; font-weight: 600;
+            padding: 0 15px; background: white; border: 1px solid var(--primary); color: var(--primary);
+            border-radius: 4px; cursor: pointer; font-weight: 600;
         }
-        .apply-btn:hover { background: var(--primary-color); color: var(--white); }
+        .apply-btn:hover { background: var(--primary); color: white; }
+        .promo-msg { font-size: 0.8rem; margin-top: 5px; min-height: 1.2em; }
 
-        .discount-msg {
-            font-size: 0.85rem;
-            color: var(--success);
-            margin-top: 5px;
-            display: none; /* Hidden by default */
-        }
-
+        /* CHECKOUT BUTTON */
         .checkout-btn {
             width: 100%;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 18px;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 15px;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
-        .checkout-btn:hover { background-color: #1a252f; }
+        .checkout-btn:hover { background: var(--gold); transform: translateY(-2px); }
 
-        /* Tools for Demo */
-        .tools { margin-top: 20px; text-align: right; }
-        .restore-btn {
-            background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;
+        /* RESTORE BUTTON (FOR DEMO) */
+        .restore-link {
+            display: block; text-align: center; margin-top: 15px; color: var(--text-light); text-decoration: underline; cursor: pointer; font-size: 0.85rem;
         }
 
+        /* MODAL (TRANSACTION) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white; padding: 30px; border-radius: var(--radius); width: 400px;
+            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal h2 { margin-bottom: 20px; color: var(--primary); }
+        .card-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .pay-btn { width: 100%; padding: 12px; background: var(--success); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .close-modal { margin-top: 15px; color: var(--text-light); cursor: pointer; font-size: 0.9rem; text-decoration: underline; display: inline-block;}
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .cart-wrapper { grid-template-columns: 1fr; }
+            .cart-grid { grid-template-columns: 1fr; }
+            .cart-header-row { display: none; } /* Hide headers on mobile */
+            .cart-item { grid-template-columns: 1fr; gap: 15px; position: relative; }
+            .delete-btn { position: absolute; top: 10px; right: 0; }
+            .qty-selector { margin: 10px 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Your Cart <span id="cart-count" style="font-size:1rem; color:#777; font-weight:400;">(0 items)</span></h1>
+    <header>
+        <div class="logo">LUXE <span>DECOR</span></div>
+        <div style="color: var(--primary);">Need Help? 555-0123</div>
+    </header>
 
-    <div class="cart-wrapper">
-        
-        <div class="cart-items" id="cart-container">
-            </div>
+    <div class="container">
+        <h1 class="page-title">Shopping Bag</h1>
 
-        <div class="order-summary">
-            <h3>Order Summary</h3>
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-
-            <div class="summary-row">
-                <span>Subtotal</span>
-                <span id="subtotal-price">$0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Shipping</span>
-                <span id="shipping-price">$0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Tax (8%)</span>
-                <span id="tax-price">$0.00</span>
-            </div>
+        <div class="cart-grid">
             
-            <div class="summary-row" id="discount-row" style="color: var(--success); display: none;">
-                <span>Discount</span>
-                <span id="discount-amount">-$0.00</span>
-            </div>
-
-            <div class="promo-section">
-                <div class="promo-input-group">
-                    <input type="text" id="promo-input" class="promo-input" placeholder="Try code: DECOR20">
-                    <button class="apply-btn" onclick="applyPromo()">Apply</button>
+            <div class="cart-box" id="cart-box">
+                <div class="cart-header-row">
+                    <div>Product</div>
+                    <div>Quantity</div>
+                    <div>Price</div>
+                    <div style="text-align: right;">Action</div>
                 </div>
-                <div id="promo-message" class="discount-msg">Promocode Applied!</div>
+
+                <div id="cart-list"></div>
+                
+                <div id="empty-msg" style="display:none; text-align:center; padding: 40px;">
+                    <p>Your bag is empty.</p>
+                    <span class="restore-link" onclick="restoreItems()">Reload Default Items</span>
+                </div>
             </div>
 
-            <div class="summary-row total">
-                <span>Total</span>
-                <span id="total-price">$0.00</span>
+            <div class="summary-box">
+                <h3 class="summary-title">Order Summary</h3>
+                
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping Estimate</span>
+                    <span id="shipping">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (8%)</span>
+                    <span id="tax">$0.00</span>
+                </div>
+                
+                <div class="summary-row" id="discount-row" style="color: var(--success); display: none;">
+                    <span>Discount (20%)</span>
+                    <span id="discount-val">-$0.00</span>
+                </div>
+
+                <div class="promo-area">
+                    <div class="promo-flex">
+                        <input type="text" id="promo-code" class="promo-input" placeholder="Enter code (Try 'DECOR20')">
+                        <button class="apply-btn" onclick="applyPromo()">Apply</button>
+                    </div>
+                    <div id="promo-status" class="promo-msg"></div>
+                </div>
+
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span id="total">$0.00</span>
+                </div>
+
+                <button class="checkout-btn" onclick="openPayment()">
+                    Proceed to Checkout
+                </button>
+                
+                <div style="text-align:center; margin-top:15px; font-size:0.8rem; color:#aaa;">
+                    🔒 Secure SSL Encryption
+                </div>
             </div>
 
-            <button class="checkout-btn" onclick="alert('Proceeding to payment gateway...')">Proceed to Checkout</button>
         </div>
     </div>
 
-    <div class="tools">
-        <button class="restore-btn" onclick="restoreItems()">↺ Restore Deleted Items</button>
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal">
+            <h2>Secure Payment</h2>
+            <p style="margin-bottom: 15px; color: #666;">Enter your card details to complete the purchase.</p>
+            
+            <input type="text" class="card-input" placeholder="Card Number (XXXX XXXX XXXX XXXX)">
+            <div style="display:flex; gap:10px;">
+                <input type="text" class="card-input" placeholder="MM/YY">
+                <input type="text" class="card-input" placeholder="CVC">
+            </div>
+
+            <button class="pay-btn" onclick="alert('Payment Successful! Thank you for your order.')">Pay Now</button>
+            <span class="close-modal" onclick="closePayment()">Cancel Transaction</span>
+        </div>
     </div>
-</div>
 
-<script>
-    // --- 1. DATA MODEL ---
-    // Initial products
-    const initialProducts = [
-        {
-            id: 101,
-            name: "Ceramic Minimalist Vase",
-            meta: "Color: Matte White | Size: Medium",
-            price: 45.00,
-            image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=150&q=80",
-            qty: 1
-        },
-        {
-            id: 102,
-            name: "Abstract Gold Wall Art",
-            meta: "Frame: Brass | Size: 24x36",
-            price: 120.00,
-            image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=150&q=80",
-            qty: 1
+    <script>
+        // --- DATA ---
+        const initialData = [
+            {
+                id: 1,
+                name: "Ceramic Minimalist Vase",
+                desc: "Matte White | Size M",
+                price: 45.00,
+                img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=150&q=80",
+                qty: 1
+            },
+            {
+                id: 2,
+                name: "Abstract Gold Wall Art",
+                desc: "Brass Frame | 24x36",
+                price: 120.00,
+                img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=150&q=80",
+                qty: 1
+            },
+            {
+                id: 3,
+                name: "Velvet Throw Pillow",
+                desc: "Emerald Green | Set of 2",
+                price: 35.00,
+                img: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?auto=format&fit=crop&w=150&q=80",
+                qty: 2
+            }
+        ];
+
+        // State
+        let cart = JSON.parse(JSON.stringify(initialData));
+        let discountMultiplier = 0; // 0.2 for 20%
+        const TAX_RATE = 0.08;
+        const SHIPPING_COST = 15.00;
+
+        // --- RENDER FUNCTION ---
+        function render() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = ""; // Clear existing
+            
+            if (cart.length === 0) {
+                document.getElementById('empty-msg').style.display = 'block';
+                document.querySelector('.cart-header-row').style.display = 'none';
+            } else {
+                document.getElementById('empty-msg').style.display = 'none';
+                document.querySelector('.cart-header-row').style.display = 'grid'; // or flex
+                
+                // Loop through items
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.qty;
+                    
+                    const html = `
+                    <div class="cart-item">
+                        <div class="item-info">
+                            <img src="${item.img}" class="item-img" alt="${item.name}">
+                            <div class="item-text">
+                                <h4>${item.name}</h4>
+                                <p>${item.desc}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                            <input type="text" class="qty-val" value="${item.qty}" readonly>
+                            <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                        </div>
+                        
+                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
+                        
+                        <div style="text-align:right;">
+                            <button class="delete-btn" onclick="removeItem(${index})">&times;</button>
+                        </div>
+                    </div>
+                    `;
+                    list.innerHTML += html;
+                });
+            }
+
+            calculateTotals();
         }
-    ];
 
-    // State variables
-    let cart = JSON.parse(JSON.stringify(initialProducts)); // Deep copy
-    let discountRate = 0; // e.g. 0.20 for 20%
-    const TAX_RATE = 0.08;
-    const SHIPPING_COST = 15.00;
+        // --- CALCULATION LOGIC ---
+        function calculateTotals() {
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                subtotal += (item.price * item.qty);
+            });
 
-    // --- 2. RENDER FUNCTIONS ---
-    
-    const cartContainer = document.getElementById('cart-container');
-    const cartCountEl = document.getElementById('cart-count');
+            // If cart is empty, reset everything
+            const shipping = subtotal > 0 ? SHIPPING_COST : 0;
+            const tax = subtotal * TAX_RATE;
+            const discountAmt = subtotal * discountMultiplier;
+            const total = subtotal + shipping + tax - discountAmt;
 
-    function renderCart() {
-        cartContainer.innerHTML = ''; // Clear current HTML
-        
-        if (cart.length === 0) {
-            cartContainer.innerHTML = '<div style="text-align:center; padding:40px; color:#777;">Your cart is empty. <br> <a onclick="restoreItems()" style="color:var(--primary-color); cursor:pointer; text-decoration:underline;">Undo changes?</a></div>';
-            updateTotals();
-            return;
+            // DOM Updates
+            document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping').innerText = `$${shipping.toFixed(2)}`;
+            document.getElementById('tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('total').innerText = `$${total.toFixed(2)}`;
+
+            // Discount UI
+            const discRow = document.getElementById('discount-row');
+            if (discountMultiplier > 0 && subtotal > 0) {
+                discRow.style.display = 'flex';
+                document.getElementById('discount-val').innerText = `-$${discountAmt.toFixed(2)}`;
+            } else {
+                discRow.style.display = 'none';
+            }
         }
 
-        cart.forEach((item, index) => {
-            const html = `
-            <div class="product-card">
-                <img src="${item.image}" alt="${item.name}" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">${item.name}</div>
-                    <div class="product-meta">${item.meta}</div>
-                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-                </div>
-                <div class="quantity-control">
-                    <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                    <input type="text" class="qty-input" value="${item.qty}" readonly>
-                    <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-                </div>
-                <div class="price-tag">$${(item.price * item.qty).toFixed(2)}</div>
-            </div>`;
-            cartContainer.innerHTML += html;
-        });
+        // --- ACTIONS ---
+        function updateQty(index, change) {
+            if (cart[index].qty + change > 0) {
+                cart[index].qty += change;
+            }
+            render();
+        }
 
-        updateTotals();
-    }
+        function removeItem(index) {
+            cart.splice(index, 1);
+            render();
+        }
 
-    // --- 3. LOGIC FUNCTIONS ---
+        function restoreItems() {
+            cart = JSON.parse(JSON.stringify(initialData));
+            render();
+        }
 
-    function updateTotals() {
-        let subtotal = 0;
-        let totalItems = 0;
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-status');
 
-        // Calculate Subtotal
-        cart.forEach(item => {
-            subtotal += item.price * item.qty;
+            if (code === 'DECOR20') {
+                discountMultiplier = 0.20;
+                msg.style.color = 'var(--success)';
+                msg.innerText = 'Success! 20% discount applied.';
+                render(); // Re-calc totals
+            } else {
+                discountMultiplier = 0;
+                msg.style.color = 'var(--danger)';
+                msg.innerText = 'Invalid code. Try "DECOR20".';
+                render();
+            }
+        }
+
+        // --- MODAL CONTROLS ---
+        function openPayment() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+
+        function closePayment() {
+            document.getElementById('payment-modal').style.display = 'none';
+        }
+
+        // Initial Load
+        render();
+
+    </script>
+</body>
+</html>
+    subtotal += item.price * item.qty;
             totalItems += item.qty;
         });
 
