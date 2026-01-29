@@ -1,839 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Decor | Shopping Cart</title>
-    <style>
-        /* --- 1. CSS STYLES --- */
-        :root {
-            --primary: #2c3e50;      /* Dark Blue-Grey */
-            --gold: #d4af37;         /* Luxury Gold */
-            --bg: #fdfdfd;           /* Off-white background */
-            --white: #ffffff;
-            --text-main: #333;
-            --text-light: #777;
-            --danger: #e74c3c;
-            --success: #27ae60;
-            --radius: 8px;
-            --shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIÈRE | Checkout Demo</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        
-        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-        /* HEADER */
-        header {
-            background: var(--white);
-            padding: 20px 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
-        .logo span { color: var(--gold); }
+<style>
+:root{
+--dark:#1a1a1a;
+--gold:#c6a87c;
+--gray:#eee;
+--transition:all .3s ease;
+}
 
-        /* CONTAINER */
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        
-        .page-title { margin-bottom: 25px; font-weight: 300; font-size: 2rem; color: var(--primary); }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Montserrat,sans-serif;color:#111}
 
-        .cart-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            align-items: start;
-        }
+header{
+position:fixed;top:0;width:100%;background:#fff;
+box-shadow:0 5px 20px rgba(0,0,0,.05);z-index:1000
+}
+.container{width:90%;max-width:1200px;margin:auto}
+.nav{height:80px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:Cormorant Garamond,serif;font-size:1.8rem}
+.cart-icon{position:relative;cursor:pointer;font-size:1.4rem}
+.cart-count{
+position:absolute;top:-8px;right:-8px;
+background:var(--gold);color:#fff;
+width:16px;height:16px;font-size:10px;
+border-radius:50%;display:flex;align-items:center;justify-content:center
+}
 
-        /* LEFT SIDE: CART ITEMS */
-        .cart-box {
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 25px;
-        }
+/* HERO */
+.hero{
+height:100vh;
+background:url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6") center/cover;
+display:flex;align-items:center;justify-content:center;color:#fff;text-align:center
+}
+.hero h1{font-size:3.5rem}
 
-        .cart-header-row {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr 0.5fr;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            color: var(--text-light);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+/* PRODUCTS */
+.products{padding:100px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px}
+.card img{width:100%;height:320px;object-fit:cover}
+.card button{
+width:100%;padding:15px;
+border:none;background:#fff;font-weight:600;cursor:pointer
+}
 
-        .cart-item {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr 0.5fr;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
-            transition: opacity 0.3s;
-        }
-        
-        .item-info { display: flex; align-items: center; gap: 15px; }
-        .item-img {
-            width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #eee;
-        }
-        .item-text h4 { font-size: 1rem; color: var(--primary); margin-bottom: 4px; }
-        .item-text p { font-size: 0.85rem; color: var(--text-light); }
+/* CART */
+.overlay{
+position:fixed;inset:0;background:rgba(0,0,0,.4);
+opacity:0;visibility:hidden;transition:.3s;z-index:2000
+}
+.overlay.active{opacity:1;visibility:visible}
 
-        .qty-selector {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            width: fit-content;
-            border-radius: 4px;
-        }
-        .qty-btn {
-            background: #f9f9f9; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold;
-        }
-        .qty-btn:hover { background: #eee; }
-        .qty-val { width: 35px; text-align: center; border: none; font-size: 0.9rem; }
+.cart{
+position:fixed;top:0;right:-420px;width:400px;height:100vh;
+background:#fff;transition:.3s;z-index:2001;
+display:flex;flex-direction:column
+}
+.cart.active{right:0}
 
-        .item-price { font-weight: 600; color: var(--text-main); }
-        
-        .delete-btn {
-            color: var(--text-light); background: none; border: none; cursor: pointer; font-size: 1.2rem; transition: 0.2s;
-        }
-        .delete-btn:hover { color: var(--danger); }
+.cart-header,.cart-footer{padding:20px;border-bottom:1px solid #eee}
+.cart-items{flex:1;overflow:auto;padding:20px}
+.cart-item{display:flex;gap:12px;margin-bottom:20px}
+.cart-item img{width:70px;height:80px;object-fit:cover}
 
-        /* RIGHT SIDE: SUMMARY */
-        .summary-box {
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 25px;
-            position: sticky;
-            top: 20px;
-        }
+.qty button{width:24px;height:24px}
 
-        .summary-title { font-size: 1.2rem; margin-bottom: 20px; color: var(--primary); }
-        
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
-        .total-row { border-top: 2px solid #eee; padding-top: 15px; margin-top: 15px; font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+/* PROMO */
+.promo{display:flex;gap:10px;margin-bottom:15px}
+.promo input{flex:1;padding:10px;border:1px solid #ccc}
+.promo button{padding:10px;background:#111;color:#fff;border:none}
 
-        /* PROMO CODE */
-        .promo-area { margin: 20px 0; }
-        .promo-flex { display: flex; gap: 8px; }
-        .promo-input {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none;
-        }
-        .apply-btn {
-            padding: 0 15px; background: white; border: 1px solid var(--primary); color: var(--primary);
-            border-radius: 4px; cursor: pointer; font-weight: 600;
-        }
-        .apply-btn:hover { background: var(--primary); color: white; }
-        .promo-msg { font-size: 0.8rem; margin-top: 5px; min-height: 1.2em; }
+/* CHECKOUT */
+.checkout{
+padding:20px;border-top:1px solid #eee
+}
+.payment-methods label{
+display:flex;gap:10px;margin-bottom:10px;cursor:pointer
+}
 
-        /* CHECKOUT BUTTON */
-        .checkout-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        .checkout-btn:hover { background: var(--gold); transform: translateY(-2px); }
-
-        /* RESTORE BUTTON (FOR DEMO) */
-        .restore-link {
-            display: block; text-align: center; margin-top: 15px; color: var(--text-light); text-decoration: underline; cursor: pointer; font-size: 0.85rem;
-        }
-
-        /* MODAL (TRANSACTION) */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-        .modal {
-            background: white; padding: 30px; border-radius: var(--radius); width: 400px;
-            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .modal h2 { margin-bottom: 20px; color: var(--primary); }
-        .card-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        .pay-btn { width: 100%; padding: 12px; background: var(--success); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .close-modal { margin-top: 15px; color: var(--text-light); cursor: pointer; font-size: 0.9rem; text-decoration: underline; display: inline-block;}
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .cart-grid { grid-template-columns: 1fr; }
-            .cart-header-row { display: none; } /* Hide headers on mobile */
-            .cart-item { grid-template-columns: 1fr; gap: 15px; position: relative; }
-            .delete-btn { position: absolute; top: 10px; right: 0; }
-            .qty-selector { margin: 10px 0; }
-        }
-    </style>
+.pay-btn{
+width:100%;padding:15px;
+background:#1a1a1a;color:#fff;border:none;font-size:1rem
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo">LUXE <span>DECOR</span></div>
-        <div style="color: var(--primary);">Need Help? 555-0123</div>
-    </header>
+<header>
+<div class="container nav">
+<div class="logo">LUMIÈRE.</div>
+<div class="cart-icon" onclick="openCart()">
+<i class="ph ph-shopping-bag"></i>
+<span class="cart-count" id="cartCount">0</span>
+</div>
+</div>
+</header>
 
-    <div class="container">
-        <h1 class="page-title">Shopping Bag</h1>
+<section class="hero">
+<div>
+<h1>Modern Artisan Decor</h1>
+<p>Checkout Demo with Payments</p>
+</div>
+</section>
 
-        <div class="cart-grid">
-            
-            <div class="cart-box" id="cart-box">
-                <div class="cart-header-row">
-                    <div>Product</div>
-                    <div>Quantity</div>
-                    <div>Price</div>
-                    <div style="text-align: right;">Action</div>
-                </div>
+<section class="products container">
+<div class="grid">
 
-                <div id="cart-list"></div>
-                
-                <div id="empty-msg" style="display:none; text-align:center; padding: 40px;">
-                    <p>Your bag is empty.</p>
-                    <span class="restore-link" onclick="restoreItems()">Reload Default Items</span>
-                </div>
-            </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa">
+<button onclick="addToCart({id:1,name:'Oslo Vase',price:45,image:this.previousElementSibling.src})">
+Add to Cart
+</button>
+</div>
 
-            <div class="summary-box">
-                <h3 class="summary-title">Order Summary</h3>
-                
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span id="subtotal">$0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping Estimate</span>
-                    <span id="shipping">$0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax (8%)</span>
-                    <span id="tax">$0.00</span>
-                </div>
-                
-                <div class="summary-row" id="discount-row" style="color: var(--success); display: none;">
-                    <span>Discount (20%)</span>
-                    <span id="discount-val">-$0.00</span>
-                </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1579725942955-4d83dd756180">
+<button onclick="addToCart({id:2,name:'Aura Lamp',price:120,image:this.previousElementSibling.src})">
+Add to Cart
+</button>
+</div>
 
-                <div class="promo-area">
-                    <div class="promo-flex">
-                        <input type="text" id="promo-code" class="promo-input" placeholder="Enter code (Try 'DECOR20')">
-                        <button class="apply-btn" onclick="applyPromo()">Apply</button>
-                    </div>
-                    <div id="promo-status" class="promo-msg"></div>
-                </div>
+</div>
+</section>
 
-                <div class="summary-row total-row">
-                    <span>Total</span>
-                    <span id="total">$0.00</span>
-                </div>
+<!-- CART -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-                <button class="checkout-btn" onclick="openPayment()">
-                    Proceed to Checkout
-                </button>
-                
-                <div style="text-align:center; margin-top:15px; font-size:0.8rem; color:#aaa;">
-                    🔒 Secure SSL Encryption
-                </div>
-            </div>
+<div class="cart" id="cart">
+<div class="cart-header">
+<strong>Your Cart</strong>
+<button onclick="closeCart()">✕</button>
+</div>
 
-        </div>
-    </div>
+<div class="cart-items" id="cartItems"></div>
 
-    <div class="modal-overlay" id="payment-modal">
-        <div class="modal">
-            <h2>Secure Payment</h2>
-            <p style="margin-bottom: 15px; color: #666;">Enter your card details to complete the purchase.</p>
-            
-            <input type="text" class="card-input" placeholder="Card Number (XXXX XXXX XXXX XXXX)">
-            <div style="display:flex; gap:10px;">
-                <input type="text" class="card-input" placeholder="MM/YY">
-                <input type="text" class="card-input" placeholder="CVC">
-            </div>
+<div class="cart-footer">
 
-            <button class="pay-btn" onclick="alert('Payment Successful! Thank you for your order.')">Pay Now</button>
-            <span class="close-modal" onclick="closePayment()">Cancel Transaction</span>
-        </div>
-    </div>
+<div class="promo">
+<input type="text" id="promoInput" placeholder="Promo code">
+<button onclick="applyPromo()">Apply</button>
+</div>
 
-    <script>
-        // --- DATA ---
-        const initialData = [
-            {
-                id: 1,
-                name: "Ceramic Minimalist Vase",
-                desc: "Matte White | Size M",
-                price: 45.00,
-                img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=150&q=80",
-                qty: 1
-            },
-            {
-                id: 2,
-                name: "Abstract Gold Wall Art",
-                desc: "Brass Frame | 24x36",
-                price: 120.00,
-                img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=150&q=80",
-                qty: 1
-            },
-            {
-                id: 3,
-                name: "Velvet Throw Pillow",
-                desc: "Emerald Green | Set of 2",
-                price: 35.00,
-                img: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?auto=format&fit=crop&w=150&q=80",
-                qty: 2
-            }
-        ];
+<div style="display:flex;justify-content:space-between">
+<span>Total</span>
+<strong id="total">$0.00</strong>
+</div>
 
-        // State
-        let cart = JSON.parse(JSON.stringify(initialData));
-        let discountMultiplier = 0; // 0.2 for 20%
-        const TAX_RATE = 0.08;
-        const SHIPPING_COST = 15.00;
+<div class="checkout">
+<h4>Payment Method</h4>
+<div class="payment-methods">
+<label><input type="radio" name="pay" checked> Credit / Debit Card</label>
+<label><input type="radio" name="pay"> UPI / Online</label>
+<label><input type="radio" name="pay"> Cash on Delivery</label>
+</div>
+<button class="pay-btn" onclick="payNow()">Pay Now</button>
+</div>
 
-        // --- RENDER FUNCTION ---
-        function render() {
-            const list = document.getElementById('cart-list');
-            list.innerHTML = ""; // Clear existing
-            
-            if (cart.length === 0) {
-                document.getElementById('empty-msg').style.display = 'block';
-                document.querySelector('.cart-header-row').style.display = 'none';
-            } else {
-                document.getElementById('empty-msg').style.display = 'none';
-                document.querySelector('.cart-header-row').style.display = 'grid'; // or flex
-                
-                // Loop through items
-                cart.forEach((item, index) => {
-                    const itemTotal = item.price * item.qty;
-                    
-                    const html = `
-                    <div class="cart-item">
-                        <div class="item-info">
-                            <img src="${item.img}" class="item-img" alt="${item.name}">
-                            <div class="item-text">
-                                <h4>${item.name}</h4>
-                                <p>${item.desc}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="qty-selector">
-                            <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
-                            <input type="text" class="qty-val" value="${item.qty}" readonly>
-                            <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
-                        </div>
-                        
-                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
-                        
-                        <div style="text-align:right;">
-                            <button class="delete-btn" onclick="removeItem(${index})">&times;</button>
-                        </div>
-                    </div>
-                    `;
-                    list.innerHTML += html;
-                });
-            }
+</div>
+</div>
 
-            calculateTotals();
-        }
+<script>
+const cartEl=document.getElementById("cart");
+const overlay=document.getElementById("overlay");
+const itemsEl=document.getElementById("cartItems");
+const totalEl=document.getElementById("total");
+const countEl=document.getElementById("cartCount");
 
-        // --- CALCULATION LOGIC ---
-        function calculateTotals() {
-            let subtotal = 0;
-            
-            cart.forEach(item => {
-                subtotal += (item.price * item.qty);
-            });
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let discount=0;
 
-            // If cart is empty, reset everything
-            const shipping = subtotal > 0 ? SHIPPING_COST : 0;
-            const tax = subtotal * TAX_RATE;
-            const discountAmt = subtotal * discountMultiplier;
-            const total = subtotal + shipping + tax - discountAmt;
+function openCart(){cartEl.classList.add("active");overlay.classList.add("active")}
+function closeCart(){cartEl.classList.remove("active");overlay.classList.remove("active")}
 
-            // DOM Updates
-            document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('shipping').innerText = `$${shipping.toFixed(2)}`;
-            document.getElementById('tax').innerText = `$${tax.toFixed(2)}`;
-            document.getElementById('total').innerText = `$${total.toFixed(2)}`;
+function addToCart(p){
+let i=cart.find(x=>x.id===p.id);
+i?i.qty++:cart.push({...p,qty:1});
+save();
+}
 
-            // Discount UI
-            const discRow = document.getElementById('discount-row');
-            if (discountMultiplier > 0 && subtotal > 0) {
-                discRow.style.display = 'flex';
-                document.getElementById('discount-val').innerText = `-$${discountAmt.toFixed(2)}`;
-            } else {
-                discRow.style.display = 'none';
-            }
-        }
+function changeQty(id,a){
+cart=cart.map(i=>{if(i.id===id)i.qty+=a;return i}).filter(i=>i.qty>0);
+save();
+}
 
-        // --- ACTIONS ---
-        function updateQty(index, change) {
-            if (cart[index].qty + change > 0) {
-                cart[index].qty += change;
-            }
-            render();
-        }
+function applyPromo(){
+const code=document.getElementById("promoInput").value;
+if(code==="LUMIERE10"){discount=0.1;alert("10% discount applied")}
+else{discount=0;alert("Invalid promo code")}
+render();
+}
 
-        function removeItem(index) {
-            cart.splice(index, 1);
-            render();
-        }
+function payNow(){
+alert("Payment gateway integration goes here 🚀");
+}
 
-        function restoreItems() {
-            cart = JSON.parse(JSON.stringify(initialData));
-            render();
-        }
+function save(){
+localStorage.setItem("cart",JSON.stringify(cart));
+render();
+}
 
-        function applyPromo() {
-            const code = document.getElementById('promo-code').value.trim().toUpperCase();
-            const msg = document.getElementById('promo-status');
+function render(){
+itemsEl.innerHTML="";
+let total=0,count=0;
 
-            if (code === 'DECOR20') {
-                discountMultiplier = 0.20;
-                msg.style.color = 'var(--success)';
-                msg.innerText = 'Success! 20% discount applied.';
-                render(); // Re-calc totals
-            } else {
-                discountMultiplier = 0;
-                msg.style.color = 'var(--danger)';
-                msg.innerText = 'Invalid code. Try "DECOR20".';
-                render();
-            }
-        }
+cart.forEach(i=>{
+total+=i.price*i.qty;
+count+=i.qty;
+itemsEl.innerHTML+=`
+<div class="cart-item">
+<img src="${i.image}">
+<div>
+<strong>${i.name}</strong><br>
+$${i.price}
+<div class="qty">
+<button onclick="changeQty(${i.id},-1)">−</button>
+${i.qty}
+<button onclick="changeQty(${i.id},1)">+</button>
+</div>
+</div>
+</div>`;
+});
 
-        // --- MODAL CONTROLS ---
-        function openPayment() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-            document.getElementById('payment-modal').style.display = 'flex';
-        }
+total=total-(total*discount);
+totalEl.textContent="$"+total.toFixed(2);
+countEl.textContent=count;
+}
 
-        function closePayment() {
-            document.getElementById('payment-modal').style.display = 'none';
-        }
-
-        // Initial Load
-        render();
-
-    </script>
-</body>
-</html>
-    subtotal += item.price * item.qty;
-            totalItems += item.qty;
-        });
-
-        // Calculate Extras
-        const tax = subtotal * TAX_RATE;
-        const discountAmount = subtotal * discountRate;
-        const shipping = subtotal > 0 ? SHIPPING_COST : 0;
-        const total = subtotal + tax + shipping - discountAmount;
-
-        // Update DOM Elements
-        document.getElementById('subtotal-price').innerText = `$${subtotal.toFixed(2)}`;
-        document.getElementById('tax-price').innerText = `$${tax.toFixed(2)}`;
-        document.getElementById('shipping-price').innerText = `$${shipping.toFixed(2)}`;
-        document.getElementById('total-price').innerText = `$${total.toFixed(2)}`;
-        cartCountEl.innerText = `(${totalItems} items)`;
-
-        // Handle Discount Visibility
-        if (discountRate > 0 && subtotal > 0) {
-            document.getElementById('discount-row').style.display = 'flex';
-            document.getElementById('discount-amount').innerText = `-$${discountAmount.toFixed(2)}`;
-        } else {
-            document.getElementById('discount-row').style.display = 'none';
-        }
-    }
-
-    function changeQty(index, change) {
-        if (cart[index].qty + change > 0) {
-            cart[index].qty += change;
-            renderCart();
-        }
-    }
-
-    function removeItem(index) {
-        // Visual removal effect before logical removal could go here
-        cart.splice(index, 1);
-        renderCart();
-    }
-
-    function applyPromo() {
-        const input = document.getElementById('promo-input').value.toUpperCase().trim();
-        const msg = document.getElementById('promo-message');
-
-        if (input === 'DECOR20') {
-            discountRate = 0.20; // 20%
-            msg.innerText = "Success! 20% discount applied.";
-            msg.style.color = "var(--success)";
-            msg.style.display = "block";
-            updateTotals();
-        } else {
-            discountRate = 0;
-            msg.innerText = "Invalid code. Try 'DECOR20'";
-            msg.style.color = "var(--danger)";
-            msg.style.display = "block";
-            updateTotals();
-        }
-    }
-
-    function restoreItems() {
-        cart = JSON.parse(JSON.stringify(initialProducts)); // Restore original data
-        discountRate = 0; // Reset discount
-        document.getElementById('promo-input').value = '';
-        document.getElementById('promo-message').style.display = 'none';
-        renderCart();
-    }
-
-    // Initialize
-    renderCart();
-
+render();
 </script>
 
 </body>
 </html>
-position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-        }
-
-        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo { font-size: 1.8rem; font-family: 'Cormorant Garamond', serif; font-weight: 700; letter-spacing: 2px; }
-        
-        .nav-links { display: flex; gap: 2rem; height: 100%; align-items: center; }
-        .nav-links > li { position: relative; height: 100%; display: flex; align-items: center; }
-        .nav-links > li > a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; padding: 0 10px; display: flex; align-items: center; gap: 5px; }
-
-        /* TRANSPARENT DROPDOWN (Your Request) */
-        .dropdown-menu {
-            position: absolute; top: 80px; left: 0; width: 220px;
-            /* 60% White Opacity */
-            background-color: rgba(255, 255, 255, 0.6);
-            /* Blur Effect */
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            opacity: 0; visibility: hidden; transform: translateY(10px); transition: var(--transition);
-            padding: 1rem 0; display: flex; flex-direction: column;
-        }
-        .nav-links > li:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        
-        .dropdown-menu li a { padding: 12px 25px; font-size: 0.8rem; color: var(--primary-dark); display: block; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-        .dropdown-menu li a:hover { background-color: rgba(255, 255, 255, 0.5); color: var(--accent-gold); padding-left: 30px; }
-
-        /* Icons */
-        .nav-icons { display: flex; align-items: center; gap: 1.5rem; font-size: 1.2rem; }
-        .cart-icon-wrapper { position: relative; cursor: pointer; }
-        .cart-count {
-            position: absolute; top: -8px; right: -8px;
-            background-color: var(--accent-gold); color: var(--white);
-            font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .menu-toggle { display: none; font-size: 1.5rem; }
-
-        /* =========================================
-           4. HERO SECTION
-           ========================================= */
-        .hero {
-            height: 100vh;
-            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;
-            text-align: center; color: var(--white); margin-top: -80px;
-        }
-        .hero-content h1 { font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.1; }
-        .btn-hero { background-color: var(--white); color: var(--primary-dark); }
-        .btn-hero:hover { background-color: var(--accent-gold); color: var(--white); }
-
-        /* =========================================
-           5. PRODUCT GRID
-           ========================================= */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
-        
-        .product-card { position: relative; }
-        .product-image-wrapper { position: relative; overflow: hidden; height: 380px; background-color: #f0f0f0; }
-        .product-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .product-card:hover img { transform: scale(1.05); }
-        
-        .add-to-cart-btn {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
-            background-color: var(--white); text-transform: uppercase; font-size: 0.75rem;
-            font-weight: 600; letter-spacing: 1px; transform: translateY(100%); transition: transform 0.3s ease;
-        }
-        .product-card:hover .add-to-cart-btn { transform: translateY(0); }
-        
-        .product-info { padding-top: 1.2rem; text-align: center; }
-        .product-title { font-size: 1.1rem; margin: 0.3rem 0; font-family: 'Cormorant Garamond', serif; }
-        .product-price { font-weight: 500; color: var(--accent-gold); }
-
-        /* =========================================
-           6. CART SIDEBAR & OVERLAY
-           ========================================= */
-        .cart-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 1001;
-            opacity: 0; visibility: hidden; transition: var(--transition);
-        }
-        .cart-sidebar {
-            position: fixed; top: 0; right: -450px; width: 400px; height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1002; transition: var(--transition);
-            display: flex; flex-direction: column;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
-        }
-        .cart-open .cart-overlay { opacity: 1; visibility: visible; }
-        .cart-open .cart-sidebar { right: 0; }
-
-        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .cart-body { flex: 1; overflow-y: auto; padding: 20px; }
-        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #fff; }
-
-        /* Cart Items */
-        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; }
-        .cart-item-img { width: 70px; height: 70px; object-fit: cover; }
-        .cart-item-info { flex: 1; }
-        .cart-item-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; }
-        .cart-item-price { color: var(--accent-gold); font-size: 0.9rem; }
-        .cart-remove { color: #999; font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
-
-        .cart-total { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 20px; font-size: 1.1rem; }
-
-        /* =========================================
-           7. CHECKOUT MODAL
-           ========================================= */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 2000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: var(--transition);
-        }
-        .modal-open { opacity: 1; visibility: visible; }
-        
-        .checkout-box {
-            background: var(--white); width: 90%; max-width: 500px; padding: 30px;
-            border-radius: 4px; position: relative;
-        }
-        
-        .payment-options { margin: 20px 0; }
-        .payment-option {
-            border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; cursor: pointer;
-            display: flex; align-items: center; gap: 10px; transition: 0.2s;
-        }
-        .payment-option:hover, .payment-option.selected { border-color: var(--primary-dark); background: #fafafa; }
-        .payment-details { display: none; padding: 10px; background: #f9f9f9; font-size: 0.85rem; color: #666; margin-top: 5px; }
-        .payment-option.selected + .payment-details { display: block; }
-
-        .close-modal { position: absolute; top: 15px; right: 15px; cursor: pointer; font-size: 1.5rem; }
-
-        /* =========================================
-           8. FOOTER
-           ========================================= */
-        footer { background-color: var(--primary-dark); color: var(--white); padding: 4rem 0 2rem; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; }
-        
-        /* =========================================
-           9. RESPONSIVE
-           ========================================= */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.5rem; }
-            .cart-sidebar { width: 100%; right: -100%; }
-            .menu-toggle { display: block; }
-            
-            .nav-links { 
-                position: fixed; top: 80px; left: 0; width: 100%; 
-                background-color: var(--white); flex-direction: column; padding: 2rem; 
-                transform: translateX(-100%); transition: var(--transition);
-                align-items: flex-start; gap: 0; height: auto;
-            }
-            .nav-links.active { transform: translateX(0); }
-            
-            .nav-links > li { width: 100%; padding: 1rem 0; border-bottom: 1px solid #eee; display: block; }
-            
-            /* Mobile Dropdown Fix */
-            .dropdown-menu {
-                position: static; opacity: 1; visibility: visible; transform: none;
-                width: 100%; box-shadow: none; border: none; background: #f9f9f9; padding-left: 20px;
-                display: none;
-            }
-            .nav-links > li:hover .dropdown-menu { display: block; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="cart-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Your Bag</h3>
-            <button onclick="toggleCart()"><i class="ph ph-x" style="font-size: 1.5rem;"></i></button>
-        </div>
-        <div class="cart-body" id="cartBody">
-            <div class="text-center" style="margin-top: 50px; color: #999;">Your cart is empty.</div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total</span>
-                <span id="cartTotalDisplay">$0.00</span>
-            </div>
-            <button class="btn btn-primary btn-full" onclick="openCheckout()">Proceed to Checkout</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="checkout-box">
-            <button class="close-modal" onclick="closeCheckout()"><i class="ph ph-x"></i></button>
-            <h2 style="margin-bottom: 20px;">Secure Checkout</h2>
-            
-            <p style="margin-bottom: 10px; font-weight: 600;">Select Payment Method:</p>
-            
-            <form onsubmit="event.preventDefault(); processOrder();">
-                <div class="payment-group">
-                    <label class="payment-option" onclick="selectPayment(this)">
-                        <input type="radio" name="payment" value="upi" required>
-                        <i class="ph ph-qr-code" style="font-size: 1.5rem;"></i>
-                        <span>UPI / QR Code</span>
-                    </label>
-                    <div class="payment-details">Redirecting to UPI gateway...</div>
-                </div>
-
-                <div class="payment-group">
-                    <label class="payment-option" onclick="selectPayment(this)">
-                        <input type="radio" name="payment" value="card">
-                        <i class="ph ph-credit-card" style="font-size: 1.5rem;"></i>
-                        <span>Credit / Debit Card</span>
-                    </label>
-                    <div class="payment-details">Secure encrypted card payment.</div>
-                </div>
-
-                <div class="payment-group">
-                    <label class="payment-option" onclick="selectPayment(this)">
-                        <input type="radio" name="payment" value="cod">
-                        <i class="ph ph-money" style="font-size: 1.5rem;"></i>
-                        <span>Cash on Delivery</span>
-                    </label>
-                    <div class="payment-details">Pay cash upon receiving your order.</div>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <button type="submit" class="btn btn-primary btn-full">Place Order</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <header>
-        <div class="container nav-wrapper">
-            <div class="logo">LUMIÈRE.</div>
-            <nav>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#">Home</a></li>
-                    <li>
-                        <a href="#">Shop <i class="ph ph-caret-down" style="font-size: 0.8rem;"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">New Arrivals</a></li>
-                            <li><a href="#">Best Sellers</a></li>
-                            <li><a href="#">Ceramics</a></li>
-                            <li><a href="#">Textiles</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Journal</a></li>
-                </ul>
-            </nav>
-            <div class="nav-icons">
-                <i class="ph ph-magnifying-glass"></i>
-                <div class="cart-icon-wrapper" onclick="toggleCart()">
-                    <i class="ph ph-shopping-bag"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
-                <button class="menu-toggle" id="menuToggle"><i class="ph ph-list"></i></button>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container hero-content">
-            <p>HANDCRAFTED ELEGANCE</p>
-            <h1>Redefine Your Space</h1>
-            <a href="#shop" class="btn btn-hero">Explore Collection</a>
-        </div>
-    </section>
-
-    <section class="section-padding" id="shop">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-title">Curated Collection</h2>
-                <div style="width: 60px; height: 2px; background: var(--accent-gold); margin: 0 auto;"></div>
-            </div>
-
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Vase">
-                        <button class="add-to-cart-btn" onclick="addToCart('The Oslo Vase', 45, 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')">Add to Cart</button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">The Oslo Vase</h3>
-                        <div class="product-price">$45.00</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1579725942955-4d83dd756180?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Lamp">
-                        <button class="add-to-cart-btn" onclick="addToCart('Aura Table Lamp', 120, 'https://images.unsplash.com/photo-1579725942955-4d83dd756180?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')">Add to Cart</button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Aura Table Lamp</h3>
-                        <div class="product-price">$120.00</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Planter">
-                        <button class="add-to-cart-btn" onclick="addToCart('Stone Planter', 38, 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')">Add to Cart</button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Stone Planter</h3>
-                        <div class="product-price">$38.00</div>
-                    </div>
-                </div>
-                
-                 <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1589154904772-5a331131c070?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Candle Holder">
-                        <button class="add-to-cart-btn" onclick="addToCart('Brass Candle Stand', 65, 'https://images.unsplash.com/photo-1589154904772-5a331131c070?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')">Add to Cart</button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Brass Candle Stand</h3>
-                        <div class="product-price">$65.00</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-      
