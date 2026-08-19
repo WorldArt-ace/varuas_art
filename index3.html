@@ -2,27 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes">
-    <title>Vishal & Chirag · A Modern Celebration</title>
-    <!-- Google Fonts: refined serif + clean sans for professional look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Subtle Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sorry · Soniya · Love Butterflies</title>
     <style>
-        :root {
-            --ivory: #fcf9f5;
-            --platinum: #eae5df;
-            --champagne: #d6c7b8;
-            --bronze: #b58b74;
-            --espresso: #2f2a28;
-            --charcoal: #4d423e;
-            --soft-shadow: 0 20px 40px -12px rgba(45, 35, 30, 0.12);
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --border-light: 1px solid rgba(200, 180, 165, 0.4);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -30,504 +12,410 @@
         }
 
         body {
-            background: var(--ivory);
-            font-family: 'Inter', sans-serif;
-            color: var(--charcoal);
-            line-height: 1.6;
-            overflow-x: hidden;
+            background: radial-gradient(circle at 20% 30%, #1a0b2e 0%, #0d0518 50%, #03010a 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            overflow: hidden;
+            position: relative;
+            padding: 16px;
         }
 
-        /* Desktop-first professional background */
-        .ambient-bg {
+        /* animated glowing background orbs */
+        .bg-glow {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            max-width: 700px;
+            max-height: 700px;
+            background: radial-gradient(circle, rgba(255, 100, 200, 0.25), transparent 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            top: 10%;
+            left: 5%;
+            animation: floatGlow 12s infinite alternate ease-in-out;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-glow.second {
+            background: radial-gradient(circle, rgba(255, 180, 80, 0.25), transparent 70%);
+            top: 50%;
+            left: 50%;
+            width: 45vw;
+            height: 45vw;
+            animation-duration: 16s;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            100% { transform: translate(-30px, 30px) scale(1.2); opacity: 1; }
+        }
+
+        /* main card container */
+        .love-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 850px;
+            background: rgba(30, 15, 45, 0.45);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 200, 240, 0.3);
+            border-radius: 60px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 120, 200, 0.3);
+            animation: softBreath 5s infinite alternate;
+            transition: all 0.3s;
+        }
+
+        @keyframes softBreath {
+            0% { box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 60px rgba(255, 130, 190, 0.5); }
+            100% { box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 100px rgba(255, 160, 220, 0.8); }
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 12vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #ffd9e8, #ffb3d1, #ff80b5, #ff4d94);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+            margin-bottom: 0.4rem;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(20deg); }
+            100% { filter: hue-rotate(0deg); }
+        }
+
+        .subtitle {
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: #f9d7eb;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 0 20px #ff95c5;
+            background: rgba(255, 200, 230, 0.15);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 180, 210, 0.5);
+        }
+
+        .apology {
+            font-size: 1.35rem;
+            color: #ffe4f1;
+            max-width: 600px;
+            margin: 1.5rem auto;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 1.2rem 2rem;
+            border-radius: 40px;
+            border-left: 4px solid #ff85c2;
+            border-right: 4px solid #ff85c2;
+            font-style: italic;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px #ffa5d0;
+        }
+
+        /* butterfly canvas layer */
+        .butterfly-field {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 15% 20%, rgba(214, 199, 184, 0.25) 0%, rgba(252, 249, 245, 0.1) 45%),
-                        radial-gradient(circle at 85% 80%, rgba(181, 139, 116, 0.15) 0%, rgba(252, 249, 245, 0) 55%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 5;
         }
 
-        .wrapper {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 3rem 3rem 2rem;
-            position: relative;
+        /* floating hearts + tiny sparkles */
+        .tiny-heart {
+            position: fixed;
+            bottom: -30px;
+            color: rgba(255, 120, 200, 0.7);
+            font-size: 1.4rem;
+            animation: floatUp linear infinite;
+            pointer-events: none;
             z-index: 2;
-            flex: 1;
-            width: 100%;
+            filter: drop-shadow(0 0 10px #ff69b4);
         }
 
-        /* typography & accent */
-        .serif {
-            font-family: 'Cormorant Garamond', serif;
-        }
-        .small-caps {
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: 500;
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.7); opacity: 0.3; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
         }
 
-        /* professional header */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(181, 139, 116, 0.25);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo-mono {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.4rem;
-            font-weight: 600;
-            color: var(--espresso);
-            letter-spacing: 8px;
-            line-height: 1;
-        }
-
-        .top-links {
-            display: flex;
-            gap: 2.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--charcoal);
-        }
-        .top-links a {
-            text-decoration: none;
-            color: inherit;
-            letter-spacing: 1px;
-            transition: color 0.2s;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 3px;
-        }
-        .top-links a:hover {
-            color: var(--bronze);
-            border-bottom-color: var(--bronze);
-        }
-
-        /* main title section - balanced & elegant */
-        .hero-title {
-            text-align: center;
-            margin: 3.5rem 0 2rem;
-        }
-        .names-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 5.8rem;
-            font-weight: 500;
-            color: var(--espresso);
-            line-height: 1.1;
-            letter-spacing: 2px;
-        }
-        .names-display .ampersand {
-            font-style: italic;
-            font-weight: 400;
-            color: var(--bronze);
-            margin: 0 0.3em;
-            font-size: 4.5rem;
-            vertical-align: middle;
-        }
-        .hero-sub {
-            font-size: 1.1rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            color: #6b5b53;
-            margin-top: 1.2rem;
-            word-spacing: 8px;
-        }
-        .hero-sub i {
-            font-style: normal;
-            color: var(--bronze);
-            margin: 0 8px;
-        }
-
-        /* professional ornamental divider */
-        .divider-prof {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .divider-line {
-            height: 1px;
-            width: 150px;
-            background: linear-gradient(90deg, transparent, var(--champagne), transparent);
-        }
-        .divider-icon {
-            color: var(--bronze);
-            font-size: 1.2rem;
-            opacity: 0.7;
-        }
-
-        /* main content grid - professional card approach */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 2.5rem;
-            margin: 3rem 0 2rem;
-            align-items: stretch;
-        }
-
-        .photo-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .profile-frame {
-            background: linear-gradient(150deg, #ede5dd, #dfd0c2);
-            border-radius: 180px 180px 30px 30px;
-            width: 100%;
-            max-width: 420px;
-            height: 480px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--soft-shadow);
-            border: 6px solid rgba(255,255,255,0.6);
-            position: relative;
-        }
-        .profile-frame i {
-            font-size: 8rem;
-            color: rgba(255,255,255,0.85);
-            text-shadow: 0 12px 25px rgba(0,0,0,0.1);
-        }
-        .photo-caption {
-            text-align: center;
-            margin-top: 1rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.5rem;
-            color: var(--bronze);
-            letter-spacing: 1px;
-        }
-
-        .info-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 3rem 2.5rem;
-            border: var(--border-light);
-            box-shadow: var(--soft-shadow);
-        }
-
-        .info-column h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3rem;
-            font-weight: 600;
-            color: var(--espresso);
-            margin-bottom: 0.2rem;
-            line-height: 1.2;
-        }
-
-        .info-column .story-text {
-            font-size: 1.1rem;
-            font-weight: 300;
-            color: #4d423e;
-            margin: 1.5rem 0 1.8rem;
-            letter-spacing: 0.3px;
-            line-height: 1.8;
-            max-width: 90%;
-        }
-
-        .story-text strong {
-            font-weight: 500;
-            color: var(--bronze);
-        }
-
-        .event-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 1.8rem 0 1rem;
-        }
-        .event-tag {
-            background: rgba(214, 199, 184, 0.3);
-            padding: 0.6rem 1.4rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            color: var(--charcoal);
-            border: 1px solid rgba(181,139,116,0.4);
-        }
-
-        .signature-line {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.6rem;
-            color: #8b6e5b;
-            margin-top: 1.5rem;
-            border-top: 1px dashed rgba(181,139,116,0.5);
-            padding-top: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* details section - professional grid */
-        .details-heading {
-            text-align: center;
-            margin: 4rem 0 2rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.8rem;
-            font-weight: 600;
-            color: var(--espresso);
-        }
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-        .detail-card {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(6px);
-            border-radius: 28px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            border: var(--border-light);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
-            transition: all 0.25s ease;
-        }
-        .detail-card:hover {
-            background: white;
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -8px rgba(181,139,116,0.25);
-            border-color: rgba(181,139,116,0.6);
-        }
-        .detail-icon {
-            font-size: 2.8rem;
-            color: var(--bronze);
-            margin-bottom: 1rem;
-        }
-        .detail-card h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--espresso);
-        }
-        .detail-card p {
-            font-size: 0.95rem;
-            color: #5e4f49;
-            letter-spacing: 0.5px;
-        }
-
-        /* quote block */
-        .quote-block {
-            text-align: center;
-            margin: 4rem auto 2rem;
-            max-width: 800px;
-            padding: 2rem 1rem;
-        }
-        .quote-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 2.2rem;
-            color: #5d4a3e;
-            font-weight: 400;
-            line-height: 1.5;
-        }
-        .quote-author {
-            margin-top: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-size: 0.8rem;
-            color: var(--bronze);
-            font-weight: 500;
-        }
-
-        /* rsvp area */
-        .rsvp-section {
-            text-align: center;
-            margin: 3rem 0 1rem;
-        }
-        .btn-rsvp {
-            display: inline-block;
-            background: var(--espresso);
-            color: var(--ivory);
-            padding: 1.2rem 4rem;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 500;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            transition: background 0.3s, transform 0.2s;
-            box-shadow: 0 15px 25px -8px rgba(47,42,40,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-rsvp:hover {
-            background: var(--bronze);
-            transform: scale(1.03);
-        }
-
-        /* footer */
-        .footer-prof {
-            margin-top: 4rem;
-            padding: 1.8rem 0 0.5rem;
-            border-top: 1px solid rgba(181,139,116,0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: #6f5e57;
-        }
-        .footer-prof i {
-            color: var(--bronze);
-            margin: 0 6px;
-        }
-
-        /* Responsive adjustments for smaller desktop */
-        @media (max-width: 1000px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+        /* respond to smaller screens */
+        @media (max-width: 550px) {
+            .love-container {
+                padding: 2rem 1rem;
+                border-radius: 40px;
             }
-            .details-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .names-display {
-                font-size: 4.5rem;
-            }
-        }
-        @media (max-width: 700px) {
-            .wrapper {
-                padding: 1.8rem 1.2rem;
-            }
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-            .top-bar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .top-links {
-                gap: 1.5rem;
+            .apology {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="ambient-bg"></div>
 
-    <div class="wrapper">
-        <!-- Professional top bar -->
-        <div class="top-bar">
-            <div class="logo-mono">V·C</div>
-            <div class="top-links">
-                <a href="#">HOME</a>
-                <a href="#">STORY</a>
-                <a href="#">DETAILS</a>
-                <a href="#">RSVP</a>
-            </div>
+    <!-- ambient glowing orbs -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow second"></div>
+
+    <!-- Love butterflies canvas (main animation) -->
+    <canvas id="butterflyCanvas" class="butterfly-field"></canvas>
+
+    <!-- small floating hearts for extra sweetness -->
+    <div id="hearts-layer"></div>
+
+    <!-- main card -->
+    <div class="love-container">
+        <h1>I'M SORRY</h1>
+        <div class="subtitle">💖 SONIYA 💖</div>
+        <div class="apology">
+            my baby love wify,<br>
+            every butterfly carries my love,<br>
+            every colour whispers your name.<br>
+            forgive me, you are my whole world.
         </div>
-
-        <!-- Hero -->
-        <div class="hero-title">
-            <div class="names-display">
-                Vishal <span class="ampersand">&</span> Chirag
-            </div>
-            <div class="hero-sub">
-                October 14, 2025 <i>✦</i> Udaipur, India
-            </div>
-        </div>
-
-        <div class="divider-prof">
-            <span class="divider-line"></span>
-            <i class="fas fa-heart divider-icon"></i>
-            <span class="divider-line"></span>
-        </div>
-
-        <!-- Main grid: photo + text -->
-        <div class="main-grid">
-            <div class="photo-column">
-                <div class="profile-frame">
-                    <i class="fas fa-gem"></i> <!-- refined icon, symbolic -->
-                </div>
-                <div class="photo-caption">est. 2022 · forever</div>
-            </div>
-            <div class="info-column">
-                <h2>Our beginning</h2>
-                <div class="story-text">
-                    From chance meetings to <strong>unmistakable connection</strong>, Vishal and Chirag built a love 
-                    that is both fierce and tender. We invite you to witness our promise — 
-                    a lifetime of shared sunsets, laughter, and unbreakable partnership.
-                </div>
-                <div class="event-tags">
-                    <span class="event-tag">#VishalAndChirag</span>
-                    <span class="event-tag">Modern Love</span>
-                    <span class="event-tag">Forever</span>
-                </div>
-                <div class="signature-line">
-                    <i class="fas fa-infinity" style="font-size: 1.3rem; color: var(--bronze);"></i> 
-                    two hearts, one journey
-                </div>
-            </div>
-        </div>
-
-        <!-- details -->
-        <div class="details-heading">celebration details</div>
-        <div class="details-grid">
-            <div class="detail-card">
-                <div class="detail-icon"><i class="fas fa-ring"></i></div>
-                <h4>Ceremony</h4>
-                <p>5:00 PM · Lake Palace</p>
-            </div>
-            <div class="detail-card">
-                <div class="detail-icon"><i class="fas fa-champagne-glasses"></i></div>
-                <h4>Reception</h4>
-                <p>8:00 PM · Royal Terrace</p>
-            </div>
-            <div class="detail-card">
-                <div class="detail-icon"><i class="fas fa-utensils"></i></div>
-                <h4>Dinner</h4>
-                <p>9:30 PM · Under Stars</p>
-            </div>
-            <div class="detail-card">
-                <div class="detail-icon"><i class="fas fa-music"></i></div>
-                <h4>After Party</h4>
-                <p>11:00 PM · Private Lounge</p>
-            </div>
-        </div>
-
-        <!-- quote -->
-        <div class="quote-block">
-            <p class="quote-text">
-                “In all the world, there is no heart for me like yours. <br>
-                In all the world, there is no love for you like mine.”
-            </p>
-            <div class="quote-author">— maya angelou</div>
-        </div>
-
-        <!-- RSVP -->
-        <div class="rsvp-section">
-            <a href="#" class="btn-rsvp"><i class="fas fa-envelope" style="margin-right: 8px;"></i> RSVP</a>
-            <p style="margin-top: 1rem; font-size: 0.85rem; letter-spacing: 1px; color: #6b5b53;">Kindly respond by September 1, 2025</p>
-        </div>
-
-        <!-- footer -->
-        <div class="footer-prof">
-            <span><i class="fas fa-heart"></i> Vishal & Chirag <i class="fas fa-heart"></i></span>
-            <span>#VishalAndChiragForever</span>
+        <div style="margin-top: 1.2rem; font-size: 1.8rem; letter-spacing: 3px;">
+            🦋✨🌸✨🦋
         </div>
     </div>
+
+    <script>
+        (function() {
+
+            // ---------- LOVE BUTTERFLY CANVAS ENGINE ----------
+            const canvas = document.getElementById('butterflyCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            
+            // array to hold butterfly objects
+            let butterflies = [];
+
+            // butterfly shape: two overlapping hearts + tiny body
+            function drawHeart(ctx, x, y, size, color, rotation = 0, alpha = 1) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotation);
+                ctx.scale(size, size);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = color;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                // heart bezier path
+                ctx.moveTo(0, 0.3);
+                ctx.bezierCurveTo(-0.5, -0.2, -0.2, -0.8, 0, -0.3);
+                ctx.bezierCurveTo(0.2, -0.8, 0.5, -0.2, 0, 0.3);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function drawLoveButterfly(ctx, b) {
+                const size = b.size; // base scale
+                const angle = b.angle; // rotation around center
+                const flap = Math.sin(b.flapPhase) * b.flapAmplitude;
+                
+                // left upper wing (heart)
+                drawHeart(ctx, 
+                    b.x - size * 0.25 * (1 + flap*0.3), 
+                    b.y - size * 0.1, 
+                    size * 0.55, 
+                    b.color1, 
+                    angle - 0.4 + flap * 0.25, 
+                    b.opacity);
+                
+                // right upper wing (heart)
+                drawHeart(ctx, 
+                    b.x + size * 0.25 * (1 + flap*0.3), 
+                    b.y - size * 0.1, 
+                    size * 0.55, 
+                    b.color2, 
+                    angle + 0.4 - flap * 0.25, 
+                    b.opacity);
+                
+                // lower left wing (smaller heart)
+                drawHeart(ctx, 
+                    b.x - size * 0.3 * (1 + flap*0.2), 
+                    b.y + size * 0.15, 
+                    size * 0.4, 
+                    b.color3, 
+                    angle - 0.55 + flap * 0.2, 
+                    b.opacity * 0.9);
+                
+                // lower right wing 
+                drawHeart(ctx, 
+                    b.x + size * 0.3 * (1 + flap*0.2), 
+                    b.y + size * 0.15, 
+                    size * 0.4, 
+                    b.color4, 
+                    angle + 0.55 - flap * 0.2, 
+                    b.opacity * 0.9);
+                
+                // tiny body (line)
+                ctx.save();
+                ctx.translate(b.x, b.y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.strokeStyle = '#fff9e6';
+                ctx.lineWidth = size * 0.15;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ffb3d9';
+                ctx.moveTo(0, -size * 0.35);
+                ctx.lineTo(0, size * 0.3);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            function createButterfly() {
+                const colorsPool = [
+                    ['#ff4d94', '#ff80b5', '#ffb3d1', '#ff1a66'], // pink/passion
+                    ['#ffaa33', '#ff6b9d', '#ff8c42', '#ff477e'], // sunset
+                    ['#b388ff', '#ff8ac2', '#7c4dff', '#ff6ec7'], // violet love
+                    ['#ff6b6b', '#ffb347', '#ff5e78', '#ffd166'], // coral
+                    ['#4dd2ff', '#ff85c2', '#40c4ff', '#ff4d88'], // sky love
+                    ['#ff9f1c', '#ff4d6d', '#ffb703', '#fb5607'], // fiery love
+                    ['#f15bb5', '#9b5de5', '#fee440', '#00bbf9'], // rainbow
+                ];
+                const idx = Math.floor(Math.random() * colorsPool.length);
+                const [c1, c2, c3, c4] = colorsPool[idx];
+                
+                return {
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: 10 + Math.random() * 28, // varied size
+                    color1: c1,
+                    color2: c2,
+                    color3: c3,
+                    color4: c4,
+                    angle: (Math.random() * Math.PI * 2) - Math.PI,
+                    flapPhase: Math.random() * Math.PI * 2,
+                    flapSpeed: 0.02 + Math.random() * 0.05,
+                    flapAmplitude: 0.3 + Math.random() * 0.5,
+                    vx: (Math.random() - 0.5) * 0.9,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    opacity: 0.75 + Math.random() * 0.25,
+                    life: 0.8 + Math.random() * 1.5,
+                    maxLife: 2.0,
+                };
+            }
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            function animateButterflies() {
+                ctx.clearRect(0, 0, width, height);
+                
+                // update and draw butterflies
+                for (let i = butterflies.length - 1; i >= 0; i--) {
+                    const b = butterflies[i];
+                    
+                    // movement
+                    b.x += b.vx;
+                    b.y += b.vy;
+                    
+                    // gentle angle drift
+                    b.angle += 0.005 + Math.sin(b.flapPhase) * 0.01;
+                    
+                    // flap update
+                    b.flapPhase += b.flapSpeed;
+                    
+                    // life fade in/out
+                    b.life -= 0.0015;
+                    if (b.life <= 0) {
+                        butterflies.splice(i, 1);
+                        continue;
+                    }
+                    b.opacity = Math.min(1, Math.max(0.5, b.life));
+                    
+                    // wrap around edges with margin
+                    const margin = 60;
+                    if (b.x < -margin) b.x = width + margin;
+                    if (b.x > width + margin) b.x = -margin;
+                    if (b.y < -margin) b.y = height + margin;
+                    if (b.y > height + margin) b.y = -margin;
+                    
+                    drawLoveButterfly(ctx, b);
+                }
+                
+                // add new butterflies to maintain population
+                const targetCount = Math.min(42, Math.floor(width * height / 18000)); // dynamic based on screen
+                while (butterflies.length < targetCount) {
+                    butterflies.push(createButterfly());
+                }
+                
+                requestAnimationFrame(animateButterflies);
+            }
+
+            // ---------- tiny floating hearts (additional layer) ----------
+            function createTinyHeart() {
+                const heartLayer = document.getElementById('hearts-layer');
+                if (!heartLayer) return;
+                const heart = document.createElement('div');
+                heart.className = 'tiny-heart';
+                heart.textContent = ['💖', '💕', '🦋', '💗', '✨', '💘'][Math.floor(Math.random() * 6)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (0.9 + Math.random() * 1.8) + 'rem';
+                heart.style.animationDuration = (6 + Math.random() * 8) + 's';
+                heart.style.opacity = Math.random() * 0.6 + 0.4;
+                heartLayer.appendChild(heart);
+                
+                // remove after animation ends
+                setTimeout(() => {
+                    if (heart.parentNode) heart.remove();
+                }, 12000);
+            }
+
+            function spawnHearts() {
+                setInterval(() => {
+                    createTinyHeart();
+                    // occasionally spawn two at once
+                    if (Math.random() > 0.6) createTinyHeart();
+                }, 300);
+            }
+
+            // ---------- INITIALIZATION ----------
+            function init() {
+                resizeCanvas();
+                window.addEventListener('resize', () => {
+                    resizeCanvas();
+                    // adjust butterflies count gracefully
+                });
+                
+                // start butterfly animation
+                animateButterflies();
+                
+                // start floating hearts
+                spawnHearts();
+                
+                // create initial burst of butterflies
+                for (let i = 0; i < 25; i++) {
+                    butterflies.push(createButterfly());
+                }
+            }
+
+            init();
+        })();
+    </script>
 </body>
 </html>
